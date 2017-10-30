@@ -56,8 +56,8 @@ int main()
 	Shader screenShader(screenVertex, screenFragment);
 	Mesh screenQuad = getScreenQuad();
 
-	GLuint fbo, texture, rbo;
-	setupScreenBuffer(fbo, texture, rbo);
+	GLuint fbo, texture, depthMap;
+	setupScreenBuffer(fbo, texture, depthMap);
 
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
@@ -106,7 +106,7 @@ Mesh getScreenQuad()
 	return Mesh(vertices, indices);
 }
 
-void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &rbo)
+void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &depthMap)
 {
 	glGenFramebuffers(1, &fbo);  
 
@@ -118,14 +118,18 @@ void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &rbo)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);  
 
-	glGenRenderbuffers(1, &rbo);
-	glBindRenderbuffer(GL_RENDERBUFFER, rbo); 
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, SCR_WIDTH, SCR_HEIGHT);  
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT, 0, 
+				 GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);  
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
 
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
