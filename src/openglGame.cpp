@@ -23,8 +23,8 @@ void configureShader(Shader &shader, bool shadow);
 void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &rbo);
 Mesh getScreenQuad();
 
-glm::vec3 lightDirection(1.0, -0.5, 0.5);
-Camera camera(glm::vec3(-10, -10, -10) * lightDirection);
+glm::vec3 lightDirection(1.0, -0.8, 0.5);
+Camera camera(glm::vec3(-10, 5, 0));
 
 float SCR_WIDTH = 1920;
 float SCR_HEIGHT = 1080;
@@ -40,8 +40,8 @@ bool FIRST_MOUSE = true;
 const std::string rootdir = "C:/Users/Roderick/Documents/Projects/OpenGLGame/";
 const std::string modelPath = rootdir + "boxguy/export/boxguy.obj";
 const std::string shaderdir = rootdir + "src/shaders/";
-const std::string basicVertex = shaderdir + "basic_vert.glsl";
-const std::string basicFragment = shaderdir + "basic_frag.glsl";
+const std::string lightingVertex = shaderdir + "lighting_vert.glsl";
+const std::string lightingFragment = shaderdir + "lighting_frag.glsl";
 const std::string depthVertex = shaderdir + "depth_vert.glsl";
 const std::string emptyFragment = shaderdir + "empty_frag.glsl";
 const std::string screenVertex = shaderdir + "screen_vert.glsl";
@@ -54,7 +54,7 @@ int main()
 	if (!setupWindow(window)) {	return -1; }
 	
 	Model model(modelPath);
-	Shader basicShader(basicVertex, basicFragment);
+	Shader lightingShader(lightingVertex, lightingFragment);
 	Shader depthShader(depthVertex, emptyFragment);
 	Shader screenShader(screenVertex, screenFragment);
 	Mesh screenQuad = getScreenQuad();
@@ -79,30 +79,15 @@ int main()
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		screenShader.use();
-		screenShader.set_int("screenTexture", 0);
-		glDisable(GL_DEPTH_TEST);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, depthMap);
-		screenQuad.draw();
-
-		/*glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 		glClearColor(0.3f, 0.3f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
-		configureShader(basicShader, false);
+		lightingShader.set_int("shadowMap", 0);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		configureShader(lightingShader, false);
 		model.draw();
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		screenShader.use();
-		glDisable(GL_DEPTH_TEST);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		screenQuad.draw();*/
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -164,21 +149,22 @@ void configureShader(Shader &shader, bool shadows)
 {
 	shader.use();
 	glm::mat4 model(1.0);
+	
+	float near_plane = 1.0f, far_plane = 30.0f;
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, 
+											far_plane); 
+	glm::mat4 lightView = glm::lookAt(glm::vec3(-10, -10, -10) * lightDirection, 
+										glm::vec3( 0.0f, 0.0f,  0.0f), 
+										glm::vec3( 0.0f, 1.0f,  0.0f)); 
+	glm::mat4x4 lightSpaceMatrix = lightProjection * lightView;
 	if (shadows) {
-		float near_plane = 1.0f, far_plane = 20.0f;
-		glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, 
-											   far_plane); 
-		glm::mat4 lightView = glm::lookAt(glm::vec3(-10, -10, -10) * lightDirection, 
-										  glm::vec3( 0.0f, 0.0f,  0.0f), 
-										  glm::vec3( 0.0f, 1.0f,  0.0f)); 
-		glm::mat4x4 lightSpaceMatrix = lightProjection * lightView;
 		shader.set_mat4("lightSpaceMatrix", lightSpaceMatrix);
 		shader.set_mat4("model", model);
 	}
 	else {
 		glm::mat4 view = camera.get_view();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.fov), SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
-		
+		shader.set_mat4("lightSpaceMatrix", lightSpaceMatrix);
 		shader.set_mat4("model", model);
 		shader.set_mat4("projection", projection);
 		shader.set_mat4("view", view);
