@@ -23,11 +23,14 @@ void configureShader(Shader &shader, bool shadow);
 void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &rbo);
 Mesh getScreenQuad();
 
-Camera camera(glm::vec3(-4.0, 4.0, 0.0));
-glm::vec3 lightDirection(1.0, -0.5, 0.0);
+glm::vec3 lightDirection(1.0, -0.5, 0.5);
+Camera camera(glm::vec3(-10, -10, -10) * lightDirection);
 
 float SCR_WIDTH = 1920;
 float SCR_HEIGHT = 1080;
+float SHADOW_WIDTH = 1024;
+float SHADOW_HEIGHT = 1024;
+
 float DELTA_TIME = 0;
 float LAST_FRAME = 0;
 double LAST_X = 400;
@@ -64,8 +67,27 @@ int main()
 		float current_frame = glfwGetTime();
 		DELTA_TIME = current_frame - LAST_FRAME;
 		LAST_FRAME = current_frame;
+		glEnable(GL_DEPTH_TEST);
+		glClearColor(0.1, 0.1, 0.1, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		configureShader(depthShader, true);
 
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		model.draw();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		screenShader.use();
+		screenShader.set_int("screenTexture", 0);
+		glDisable(GL_DEPTH_TEST);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		screenQuad.draw();
+
+		/*glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 		glClearColor(0.3f, 0.3f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -80,7 +102,7 @@ int main()
 		screenShader.use();
 		glDisable(GL_DEPTH_TEST);
 		glBindTexture(GL_TEXTURE_2D, texture);
-		screenQuad.draw();
+		screenQuad.draw();*/
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -109,7 +131,7 @@ Mesh getScreenQuad()
 void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &depthMap)
 {
 	glGenFramebuffers(1, &fbo);  
-
+	
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -120,8 +142,8 @@ void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &depthMap)
 
 	glGenTextures(1, &depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT, 0, 
-				 GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, 
+				 GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
@@ -130,6 +152,8 @@ void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &depthMap)
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	//glDrawBuffer(GL_NONE);
+	//glReadBuffer(GL_NONE);
 
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
@@ -141,10 +165,10 @@ void configureShader(Shader &shader, bool shadows)
 	shader.use();
 	glm::mat4 model(1.0);
 	if (shadows) {
-		float near_plane = 1.0f, far_plane = 7.5f;
+		float near_plane = 1.0f, far_plane = 20.0f;
 		glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, 
 											   far_plane); 
-		glm::mat4 lightView = glm::lookAt(lightDirection, 
+		glm::mat4 lightView = glm::lookAt(glm::vec3(-10, -10, -10) * lightDirection, 
 										  glm::vec3( 0.0f, 0.0f,  0.0f), 
 										  glm::vec3( 0.0f, 1.0f,  0.0f)); 
 		glm::mat4x4 lightSpaceMatrix = lightProjection * lightView;
