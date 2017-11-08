@@ -44,8 +44,10 @@ private:
 
     void process_node(const aiScene * scene, const aiNode *node, aiMatrix4x4 parentTransform)
     {
-        aiMatrix4x4 transform = parentTransform * node->mTransformation;
-        aiMatrix4x4 ntransform = transform.Inverse().Transpose();
+        /*aiMatrix4x4 transform = parentTransform * node->mTransformation;
+        aiMatrix4x4 ntransform = transform.Inverse().Transpose();*/
+        aiMatrix4x4 transform = parentTransform;
+        aiMatrix4x4 ntransform = parentTransform;
         for (unsigned int i = 0; i < node->mNumMeshes; i++) {
             std::cout << node->mName.C_Str() << std::endl;
             std::vector<Vertex> vertices;

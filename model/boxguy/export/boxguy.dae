@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.79.0 commit date:2017-09-11, commit time:10:43, hash:5bd8ac9</authoring_tool>
+    </contributor>
+    <created>2017-10-26T23:56:02</created>
+    <modified>2017-10-26T23:56:02</modified>
+    <unit name="meter" meter="0.5"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_effects>
+    <effect id="Material-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="Material-material" name="Material">
+      <instance_effect url="#Material-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Boxguy_005-mesh" name="Boxguy.005">
+      <mesh>
+        <source id="Boxguy_005-mesh-positions">
+          <float_array id="Boxguy_005-mesh-positions-array" count="48">0.1592099 -0.09552586 -2.168731 -0.1592099 -0.0955258 -2.168731 0.1592099 -0.35 -2.168731 -0.1592099 -0.35 -2.168731 0.1592099 -0.09552627 -3.098763 -0.1592099 -0.09552621 -3.098763 0.1592099 -0.3500005 -3.098763 -0.1592099 -0.3500004 -3.098763 0.2431561 -0.03190773 -3.098763 -0.4844239 -0.03190767 -3.098763 0.243156 -0.4136191 -3.098763 -0.484424 -0.4136189 -3.098763 0.2431561 -0.03190779 -3.343893 -0.4844239 -0.03190773 -3.343893 0.243156 -0.4136191 -3.343893 -0.484424 -0.413619 -3.343893</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_005-mesh-positions-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Boxguy_005-mesh-normals">
+          <float_array id="Boxguy_005-mesh-normals-array" count="81">-1 2.51848e-7 0 4.1853e-6 0 1 -1.87189e-7 -1 4.02543e-7 1.6379e-7 1 -4.52861e-7 1 -1.25924e-7 0 -1.63843e-7 -1 3.34197e-7 -1 3.18507e-7 0 -2.62318e-7 0 1 -1.9206e-6 0 1 0 0 1 1.2809e-6 0 -1 1 -2.38881e-7 0 1.22883e-7 1 -2.50648e-7 -1.62177e-6 0 1 -1 2.51848e-7 0 -7.44054e-6 0 1 -1.87189e-7 -1 5.53496e-7 1.6379e-7 1 -4.7802e-7 1 -1.25924e-7 0 -1.63844e-7 -1 0 -1 1.59254e-7 0 1.80056e-6 0 1 1.35139e-7 0 1 -8.58469e-7 0 -1 1 -2.3888e-7 0 1.22883e-7 1 -2.29761e-7 1.47118e-6 0 1</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_005-mesh-normals-array" count="27" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Boxguy_005-mesh-vertices">
+          <input semantic="POSITION" source="#Boxguy_005-mesh-positions"/>
+        </vertices>
+        <triangles material="Material-material" count="28">
+          <input semantic="VERTEX" source="#Boxguy_005-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Boxguy_005-mesh-normals" offset="1"/>
+          <p>3 0 5 0 7 0 6 1 8 1 4 1 3 2 6 2 2 2 0 3 5 3 1 3 2 4 4 4 0 4 11 5 14 5 10 5 11 6 13 6 15 6 5 7 8 7 9 7 7 8 9 8 11 8 7 9 10 9 6 9 14 10 13 10 12 10 10 11 12 11 8 11 8 12 13 12 9 12 3 13 0 13 1 13 3 14 1 14 5 14 6 15 10 15 8 15 3 16 7 16 6 16 0 17 4 17 5 17 2 18 6 18 4 18 11 19 15 19 14 19 11 20 9 20 13 20 5 9 4 9 8 9 7 21 5 21 9 21 7 22 11 22 10 22 14 23 15 23 13 23 10 24 14 24 12 24 8 25 12 25 13 25 3 26 2 26 0 26</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Boxguy_004-mesh" name="Boxguy.004">
+      <mesh>
+        <source id="Boxguy_004-mesh-positions">
+          <float_array id="Boxguy_004-mesh-positions-array" count="48">0.15921 0.35 -2.168732 -0.1592098 0.35 -2.168732 0.1592099 0.09552603 -2.168731 -0.1592098 0.09552609 -2.168731 0.15921 0.3499995 -3.098764 -0.1592098 0.3499996 -3.098764 0.1592099 0.09552556 -3.098763 -0.1592098 0.09552562 -3.098763 0.2431561 0.413618 -3.098764 -0.4844238 0.4136181 -3.098764 0.243156 0.03190708 -3.098763 -0.4844239 0.0319072 -3.098763 0.2431561 0.4136179 -3.343894 -0.4844238 0.413618 -3.343894 0.243156 0.03190702 -3.343893 -0.4844239 0.03190714 -3.343893</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_004-mesh-positions-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Boxguy_004-mesh-normals">
+          <float_array id="Boxguy_004-mesh-normals-array" count="84">3.72353e-7 9.36907e-7 1 -1 2.51848e-7 0 -1.11608e-5 9.36908e-7 1 -1.87189e-7 -1 4.6544e-7 1 0 0 2.80783e-7 1 -5.03179e-7 -1.35139e-7 0 1 -1.9206e-6 6.24605e-7 1 -1.47118e-6 0 1 -2.95222e-7 -6.24605e-7 -1 -1.22883e-7 -1 2.50648e-7 1 0 0 1.63844e-7 1 -3.34198e-7 -1 1.59253e-7 0 0 9.36908e-7 1 -1 0 0 7.44055e-6 6.24605e-7 1 -1.87188e-7 -1 4.6544e-7 1 -1.25924e-7 0 2.80783e-7 1 -5.03179e-7 0 0 1 7.20224e-7 9.36908e-7 1 2.62318e-7 0 1 8.58469e-7 -6.24605e-7 -1 -1.22883e-7 -1 2.29761e-7 1 -2.3888e-7 0 1.63843e-7 1 0 -1 2.39129e-7 0</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_004-mesh-normals-array" count="28" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Boxguy_004-mesh-vertices">
+          <input semantic="POSITION" source="#Boxguy_004-mesh-positions"/>
+        </vertices>
+        <triangles material="Material-material" count="28">
+          <input semantic="VERTEX" source="#Boxguy_004-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Boxguy_004-mesh-normals" offset="1"/>
+          <p>3 0 0 0 1 0 1 1 7 1 3 1 6 2 8 2 4 2 3 3 6 3 2 3 0 4 6 4 4 4 0 5 5 5 1 5 5 6 8 6 9 6 7 7 9 7 11 7 7 8 10 8 6 8 14 9 13 9 12 9 11 10 14 10 10 10 8 11 14 11 12 11 8 12 13 12 9 12 9 13 15 13 11 13 3 14 2 14 0 14 1 15 5 15 7 15 6 16 10 16 8 16 3 17 7 17 6 17 0 18 2 18 6 18 0 19 4 19 5 19 5 20 4 20 8 20 7 21 5 21 9 21 7 22 11 22 10 22 14 23 15 23 13 23 11 24 15 24 14 24 8 25 10 25 14 25 8 26 12 26 13 26 9 27 13 27 15 27</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Boxguy-mesh" name="Boxguy">
+      <mesh>
+        <source id="Boxguy-mesh-positions">
+          <float_array id="Boxguy-mesh-positions-array" count="54">-0.4776296 0.47763 -1 -0.4776298 -0.4776297 -1 0.4776298 0.4776298 -2.168731 0.4776298 -0.4776297 -2.168731 -0.4776296 0.47763 -2.168731 -0.4776298 -0.4776297 -2.168731 0.4776298 0.4776298 -1 0.4776298 -0.4776297 -1 -0.4776296 0.47763 -1 -0.4776298 -0.4776297 -1 0.4776298 0.4776298 -2.168731 0.4776298 -0.4776297 -2.168731 -0.4776296 0.47763 -2.168731 -0.4776298 -0.4776297 -2.168731 0.4776298 0.4776298 -2.168731 0.4776298 -0.4776297 -2.168731 -0.4776296 0.47763 -2.168731 -0.4776298 -0.4776297 -2.168731</float_array>
+          <technique_common>
+            <accessor source="#Boxguy-mesh-positions-array" count="18" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Boxguy-mesh-normals">
+          <float_array id="Boxguy-mesh-normals-array" count="24">-1 3.20328e-7 0 0 0 1 1 0 0 2.49585e-7 1 0 0 -1 0 5.22549e-7 0 -1 -1 3.20328e-7 0 0 0 -1</float_array>
+          <technique_common>
+            <accessor source="#Boxguy-mesh-normals-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Boxguy-mesh-vertices">
+          <input semantic="POSITION" source="#Boxguy-mesh-positions"/>
+        </vertices>
+        <triangles material="Material-material" count="32">
+          <input semantic="VERTEX" source="#Boxguy-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Boxguy-mesh-normals" offset="1"/>
+          <p>0 0 5 0 1 0 5 1 15 1 3 1 0 1 12 1 4 1 4 1 10 1 2 1 7 2 10 2 6 2 3 1 13 1 5 1 2 1 11 1 3 1 5 1 9 1 1 1 6 3 12 3 8 3 11 4 9 4 13 4 3 1 14 1 2 1 4 1 17 1 5 1 2 1 16 1 4 1 17 5 14 5 15 5 7 1 6 1 0 1 0 6 4 6 5 6 5 1 17 1 15 1 0 1 8 1 12 1 4 1 12 1 10 1 7 2 11 2 10 2 3 1 11 1 13 1 2 1 10 1 11 1 5 1 13 1 9 1 6 3 10 3 12 3 11 4 7 4 9 4 3 1 15 1 14 1 4 1 16 1 17 1 2 1 14 1 16 1 17 7 16 7 14 7 1 1 9 1 7 1 6 1 8 1 0 1 0 1 1 1 7 1</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Boxguy_003-mesh" name="Boxguy.003">
+      <mesh>
+        <source id="Boxguy_003-mesh-positions">
+          <float_array id="Boxguy_003-mesh-positions-array" count="48">0.09967607 -0.4776297 -1.129438 -0.09967595 -0.4776297 -1.129438 0.09967607 -0.4776297 -1.391656 -0.09967595 -0.4776297 -1.391656 0.09967583 -1.205467 -1.129438 -0.09967619 -1.205467 -1.129438 0.09967583 -1.205467 -1.391656 -0.09967619 -1.205467 -1.391656 0.2173759 -1.205467 -1.032063 -0.2173776 -1.205467 -1.032063 0.2173759 -1.205467 -1.489032 -0.2173776 -1.205467 -1.489032 0.2173759 -1.63533 -1.032063 -0.2173776 -1.63533 -1.032063 0.2173759 -1.63533 -1.489032 -0.2173776 -1.63533 -1.489032</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_003-mesh-positions-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Boxguy_003-mesh-normals">
+          <float_array id="Boxguy_003-mesh-normals-array" count="42">0 0 1 0 1 3.0705e-6 1 0 0 0 1 0 0 -1 0 -1 0 0 0 0 -1 4.99809e-7 0 -1 -1 2.7327e-7 0 1 -3.12308e-7 0 2.98992e-7 1 0 0 1 -3.0705e-6 -1 3.12308e-7 0 1 -2.7327e-7 0</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_003-mesh-normals-array" count="14" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Boxguy_003-mesh-vertices">
+          <input semantic="POSITION" source="#Boxguy_003-mesh-positions"/>
+        </vertices>
+        <triangles material="Material-material" count="28">
+          <input semantic="VERTEX" source="#Boxguy_003-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Boxguy_003-mesh-normals" offset="1"/>
+          <p>1 0 4 0 0 0 5 1 8 1 4 1 8 2 14 2 10 2 4 3 10 3 6 3 7 3 9 3 5 3 7 3 10 3 11 3 13 4 14 4 12 4 11 5 13 5 9 5 10 6 15 6 11 6 9 0 12 0 8 0 6 7 3 7 2 7 7 8 1 8 3 8 0 9 6 9 2 9 0 10 3 10 1 10 1 0 5 0 4 0 5 3 9 3 8 3 8 2 12 2 14 2 4 3 8 3 10 3 7 3 11 3 9 3 7 11 6 11 10 11 13 4 15 4 14 4 11 5 15 5 13 5 10 6 14 6 15 6 9 0 13 0 12 0 6 6 7 6 3 6 7 12 5 12 1 12 0 13 4 13 6 13 0 10 2 10 3 10</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Boxguy_002-mesh" name="Boxguy.002">
+      <mesh>
+        <source id="Boxguy_002-mesh-positions">
+          <float_array id="Boxguy_002-mesh-positions-array" count="48">0.09967607 0.4776298 -1.129438 -0.09967595 0.47763 -1.129438 0.09967607 0.4776298 -1.391656 -0.09967595 0.47763 -1.391656 0.0996769 1.205467 -1.129438 -0.09967505 1.205467 -1.129438 0.0996769 1.205467 -1.391656 -0.09967505 1.205467 -1.391656 0.2173783 1.205467 -1.032063 -0.2173752 1.205467 -1.032063 0.2173783 1.205467 -1.489032 -0.2173752 1.205467 -1.489032 0.2173786 1.63533 -1.032063 -0.2173749 1.63533 -1.032063 0.2173786 1.63533 -1.489032 -0.2173749 1.63533 -1.489032</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_002-mesh-positions-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Boxguy_002-mesh-normals">
+          <float_array id="Boxguy_002-mesh-normals-array" count="69">0 -1 0 1 -1.21019e-6 0 -1 1.19067e-6 0 -1.28712e-6 0 -1 -8.2159e-7 0 1 1 -5.31008e-7 0 -5.484e-7 -1 0 -1.19597e-6 -1 -4.60575e-6 5.48399e-7 1 0 -1 5.31008e-7 0 0 0 -1 0 0 1 -1.19597e-6 -1 0 1 -1.19067e-6 0 -1 1.19067e-6 0 1.64318e-6 0 -1 4.25381e-7 0 1 1 -6.06867e-7 0 -1.19597e-6 -1 4.60575e-6 5.48399e-7 1 0 -1 6.06867e-7 0 0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_002-mesh-normals-array" count="23" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Boxguy_002-mesh-vertices">
+          <input semantic="POSITION" source="#Boxguy_002-mesh-positions"/>
+        </vertices>
+        <triangles material="Material-material" count="28">
+          <input semantic="VERTEX" source="#Boxguy_002-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Boxguy_002-mesh-normals" offset="1"/>
+          <p>6 0 8 0 4 0 2 1 4 1 0 1 1 2 7 2 3 2 2 3 7 3 6 3 0 4 5 4 1 4 10 5 12 5 8 5 5 0 11 0 7 0 6 6 11 6 10 6 4 7 9 7 5 7 12 8 15 8 13 8 9 9 15 9 11 9 11 10 14 10 10 10 8 11 13 11 9 11 3 12 0 12 1 12 6 0 10 0 8 0 2 13 6 13 4 13 1 14 5 14 7 14 2 15 3 15 7 15 0 16 4 16 5 16 10 17 14 17 12 17 5 0 9 0 11 0 6 18 7 18 11 18 4 6 8 6 9 6 12 19 14 19 15 19 9 20 13 20 15 20 11 21 15 21 14 21 8 22 12 22 13 22 3 12 2 12 0 12</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Boxguy_001-mesh" name="Boxguy.001">
+      <mesh>
+        <source id="Boxguy_001-mesh-positions">
+          <float_array id="Boxguy_001-mesh-positions-array" count="24">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_001-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Boxguy_001-mesh-normals">
+          <float_array id="Boxguy_001-mesh-normals-array" count="36">0 0 1 1 0 -2.38419e-7 0 -1 -4.76837e-7 -1 2.38419e-7 -1.49012e-7 2.68221e-7 1 2.38419e-7 0 0 -1 0 0 1 1 -5.96046e-7 3.27825e-7 -4.76837e-7 -1 0 -1 2.38419e-7 -1.19209e-7 2.08616e-7 1 0 0 0 -1</float_array>
+          <technique_common>
+            <accessor source="#Boxguy_001-mesh-normals-array" count="12" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Boxguy_001-mesh-vertices">
+          <input semantic="POSITION" source="#Boxguy_001-mesh-positions"/>
+        </vertices>
+        <triangles material="Material-material" count="12">
+          <input semantic="VERTEX" source="#Boxguy_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Boxguy_001-mesh-normals" offset="1"/>
+          <p>7 0 5 0 4 0 4 1 1 1 0 1 5 2 2 2 1 2 2 3 7 3 3 3 0 4 7 4 4 4 2 5 0 5 1 5 7 6 6 6 5 6 4 7 5 7 1 7 5 8 6 8 2 8 2 9 6 9 7 9 0 10 3 10 7 10 2 11 3 11 0 11</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Plane-mesh" name="Plane">
+      <mesh>
+        <source id="Plane-mesh-positions">
+          <float_array id="Plane-mesh-positions-array" count="12">-2 -2 0 2 -2 0 -2 2 0 2 2 0</float_array>
+          <technique_common>
+            <accessor source="#Plane-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane-mesh-normals">
+          <float_array id="Plane-mesh-normals-array" count="3">0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Plane-mesh-normals-array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane-mesh-vertices">
+          <input semantic="POSITION" source="#Plane-mesh-positions"/>
+        </vertices>
+        <triangles count="2">
+          <input semantic="VERTEX" source="#Plane-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane-mesh-normals" offset="1"/>
+          <p>1 0 2 0 0 0 1 0 3 0 2 0</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Armature" name="Armature" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 1.351321 0 0 0 1</matrix>
+        <node id="Armature_spine" name="spine" sid="spine" type="JOINT">
+          <matrix sid="transform">1 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1</matrix>
+          <node id="boxguy_torso" name="boxguy_torso" type="NODE">
+            <matrix sid="transform">1 0 0 0 0 0 1 1.000049 0 -1 0 0 0 0 0 1</matrix>
+            <instance_geometry url="#Boxguy-mesh" name="boxguy_torso">
+              <bind_material>
+                <technique_common>
+                  <instance_material symbol="Material-material" target="#Material-material"/>
+                </technique_common>
+              </bind_material>
+            </instance_geometry>
+          </node>
+          <node id="Armature_spine_head" name="spine.head" sid="spine_head" type="JOINT">
+            <matrix sid="transform">1 0 0 0 0 1 0 1 0 0 1 0 0 0 0 1</matrix>
+            <node id="boxguy_head" name="boxguy_head" type="NODE">
+              <matrix sid="transform">0.9999999 -2.93332e-8 1.49012e-8 -8.9407e-8 0 -2.66027e-9 0.9999999 -0.4334795 -2.3095e-9 -0.9999999 5.64723e-9 -1.58073e-8 0 0 0 1</matrix>
+              <instance_geometry url="#Boxguy_001-mesh" name="boxguy_head">
+                <bind_material>
+                  <technique_common>
+                    <instance_material symbol="Material-material" target="#Material-material"/>
+                  </technique_common>
+                </bind_material>
+              </instance_geometry>
+            </node>
+            <extra>
+              <technique profile="blender">
+                <connect sid="connect" type="bool">1</connect>
+                <layer sid="layer" type="string">0</layer>
+                <tip_x sid="tip_x" type="float">0</tip_x>
+                <tip_y sid="tip_y" type="float">0</tip_y>
+                <tip_z sid="tip_z" type="float">1.436391</tip_z>
+              </technique>
+            </extra>
+          </node>
+          <node id="Armature_spine_arm_right" name="spine.arm.right" sid="spine_arm_right" type="JOINT">
+            <matrix sid="transform">1 0 0 -1.68199e-10 0 0.0120941 0.9999268 0.7352875 0 -0.9999268 0.01209426 -0.4853062 0 0 0 1</matrix>
+            <node id="boxguy_arm_right" name="boxguy_arm_right" type="NODE">
+              <matrix sid="transform">0.9999999 -2.98023e-8 -4.47035e-8 -1.19209e-7 -1.49012e-8 0.999927 0.01209426 -1.4181 -1.49012e-8 -0.01209408 0.9999269 1.270502 0 0 0 1</matrix>
+              <instance_geometry url="#Boxguy_002-mesh" name="boxguy_arm_right">
+                <bind_material>
+                  <technique_common>
+                    <instance_material symbol="Material-material" target="#Material-material"/>
+                  </technique_common>
+                </bind_material>
+              </instance_geometry>
+            </node>
+            <extra>
+              <technique profile="blender">
+                <layer sid="layer" type="string">0</layer>
+                <tip_x sid="tip_x" type="float">0</tip_x>
+                <tip_y sid="tip_y" type="float">0.9510388</tip_y>
+                <tip_z sid="tip_z" type="float">0.0115028</tip_z>
+              </technique>
+            </extra>
+          </node>
+          <node id="Armature_spine_arm_left" name="spine.arm.left" sid="spine_arm_left" type="JOINT">
+            <matrix sid="transform">1 -3.24487e-11 4.06378e-6 -1.61969e-10 4.06374e-6 0.004733161 -0.9999888 0.7450917 -1.92021e-8 0.9999888 0.004733205 0.4804042 0 0 0 1</matrix>
+            <node id="boxguy_arm_left" name="boxguy_arm_left" type="NODE">
+              <matrix sid="transform">1 -6.1884e-8 4.05107e-6 5.0962e-6 2.46337e-8 -0.9999889 0.004733235 -1.432489 4.18771e-6 -0.004733175 -0.9999888 -1.257208 0 0 0 1</matrix>
+              <instance_geometry url="#Boxguy_003-mesh" name="boxguy_arm_left">
+                <bind_material>
+                  <technique_common>
+                    <instance_material symbol="Material-material" target="#Material-material"/>
+                  </technique_common>
+                </bind_material>
+              </instance_geometry>
+            </node>
+            <extra>
+              <technique profile="blender">
+                <layer sid="layer" type="string">0</layer>
+                <roll sid="roll" type="float">4.05312e-6</roll>
+                <tip_x sid="tip_x" type="float">0</tip_x>
+                <tip_y sid="tip_y" type="float">-0.9598899</tip_y>
+                <tip_z sid="tip_z" type="float">0.004543364</tip_z>
+              </technique>
+            </extra>
+          </node>
+          <node id="Armature_spine_leg_right" name="spine.leg.right" sid="spine_leg_right" type="JOINT">
+            <matrix sid="transform">1 2.94108e-12 2.88627e-12 -1.71314e-10 2.88411e-12 -0.9998162 0.01917181 -0.1715981 3.05736e-12 -0.01917181 -1.000196 -0.2205938 0 0 0 1</matrix>
+            <node id="boxguy_leg_right" name="boxguy_leg_right" type="NODE">
+              <matrix sid="transform">0.9999999 1.57132e-9 -1.19209e-7 -4.17233e-7 2.98023e-8 0.01916454 -0.9998162 -3.235136 -8.3819e-9 0.9994372 0.01916454 -0.1788413 0 0 0 1</matrix>
+              <instance_geometry url="#Boxguy_004-mesh" name="boxguy_leg_right">
+                <bind_material>
+                  <technique_common>
+                    <instance_material symbol="Material-material" target="#Material-material"/>
+                  </technique_common>
+                </bind_material>
+              </instance_geometry>
+            </node>
+            <extra>
+              <technique profile="blender">
+                <layer sid="layer" type="string">0</layer>
+                <tip_x sid="tip_x" type="float">0</tip_x>
+                <tip_y sid="tip_y" type="float">0.02030593</tip_y>
+                <tip_z sid="tip_z" type="float">-1.058961</tip_z>
+              </technique>
+            </extra>
+          </node>
+          <node id="Armature_spine_leg_left" name="spine.leg.left" sid="spine_leg_left" type="JOINT">
+            <matrix sid="transform">0.9998918 0.006298323 -0.005660236 -1.61969e-10 0.006380918 -0.9998755 0.01443224 -0.1863041 -0.005893946 -0.01446682 -0.9995082 0.2303665 0 0 0 1</matrix>
+            <node id="boxguy_leg_left" name="boxguy_leg_left" type="NODE">
+              <matrix sid="transform">1.000035 0.005571096 0.006379932 0.01523513 0.006295502 0.0144732 -0.9998754 -3.23637 -0.005988159 1.00025 0.01443453 0.2619903 0 0 0 1</matrix>
+              <instance_geometry url="#Boxguy_005-mesh" name="boxguy_leg_left">
+                <bind_material>
+                  <technique_common>
+                    <instance_material symbol="Material-material" target="#Material-material"/>
+                  </technique_common>
+                </bind_material>
+              </instance_geometry>
+            </node>
+            <extra>
+              <technique profile="blender">
+                <layer sid="layer" type="string">0</layer>
+                <roll sid="roll" type="float">-0.01187038</roll>
+                <tip_x sid="tip_x" type="float">0.006632864</tip_x>
+                <tip_y sid="tip_y" type="float">0.01523524</tip_y>
+                <tip_z sid="tip_z" type="float">-1.052988</tip_z>
+              </technique>
+            </extra>
+          </node>
+          <extra>
+            <technique profile="blender">
+              <layer sid="layer" type="string">0</layer>
+            </technique>
+          </extra>
+        </node>
+      </node>
+      <node id="Plane" name="Plane" type="NODE">
+        <matrix sid="transform">3 0 0 0 0 3 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#Plane-mesh" name="Plane"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

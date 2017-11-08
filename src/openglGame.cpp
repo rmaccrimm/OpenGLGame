@@ -22,14 +22,15 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos);
 void configureShader(Shader &shader, bool shadow);
 void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &rbo);
 Mesh getScreenQuad();
+Mesh getPlane(float xsize, float zsize);
 
-glm::vec3 lightDirection(1.0, -0.8, 0.5);
+glm::vec3 lightDirection(1.0, -0.8, -0.5);
 Camera camera(glm::vec3(-10, 5, 0));
 
 float SCR_WIDTH = 1920;
 float SCR_HEIGHT = 1080;
-float SHADOW_WIDTH = 1024;
-float SHADOW_HEIGHT = 1024;
+float SHADOW_WIDTH = 2 * 1024;
+float SHADOW_HEIGHT = 2 * 1024;
 
 float DELTA_TIME = 0;
 float LAST_FRAME = 0;
@@ -38,7 +39,8 @@ double LAST_Y = 300;
 bool FIRST_MOUSE = true;
 
 const std::string rootdir = "C:/Users/Roderick/Documents/Projects/OpenGLGame/";
-const std::string modelPath = rootdir + "boxguy/export/boxguy.obj";
+const std::string dragonPath = rootdir + "model/dragon/dragon.obj";
+const std::string modelPath = rootdir + "model/boxguy/export/boxguy.fbx";
 const std::string shaderdir = rootdir + "src/shaders/";
 const std::string lightingVertex = shaderdir + "lighting_vert.glsl";
 const std::string lightingFragment = shaderdir + "lighting_frag.glsl";
@@ -58,6 +60,7 @@ int main()
 	Shader depthShader(depthVertex, emptyFragment);
 	Shader screenShader(screenVertex, screenFragment);
 	Mesh screenQuad = getScreenQuad();
+	Mesh plane = getPlane(20.0, 20.0);
 
 	GLuint fbo, texture, depthMap;
 	setupScreenBuffer(fbo, texture, depthMap);
@@ -67,17 +70,22 @@ int main()
 		float current_frame = glfwGetTime();
 		DELTA_TIME = current_frame - LAST_FRAME;
 		LAST_FRAME = current_frame;
+
+		//lightDirection = glm::vec3(1.0, -0.8, std::sin(current_frame));
 		glEnable(GL_DEPTH_TEST);
 		glClearColor(0.1, 0.1, 0.1, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		configureShader(depthShader, true);
 
+		// Render to depth map
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		model.draw();
+		plane.draw();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+		// Render Scene
 		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 		glClearColor(0.3f, 0.3f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -88,6 +96,7 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		configureShader(lightingShader, false);
 		model.draw();
+		plane.draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -113,17 +122,26 @@ Mesh getScreenQuad()
 	return Mesh(vertices, indices);
 }
 
+Mesh getPlane(float xsize, float zsize)
+{
+	float quad[] = {
+		-xsize,  zsize, 
+		-xsize, -zsize,
+		 xsize, -zsize,
+		 xsize,  zsize
+	};
+	std::vector<Vertex> vertices;
+	for (int i = 0; i < 4; i++) {
+		vertices.push_back(Vertex(glm::vec3(quad[2*i], 0.0, quad[2*i + 1]), 
+								  glm::vec3(0.0, 1.0, 0.0)));
+	}
+	std::vector<unsigned int> indices = {0, 2, 1, 2, 0, 3};
+	return Mesh(vertices, indices);
+}
+
 void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &depthMap)
 {
 	glGenFramebuffers(1, &fbo);  
-	
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);  
 
 	glGenTextures(1, &depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
@@ -131,14 +149,15 @@ void setupScreenBuffer(GLuint &fbo, GLuint &texture, GLuint &depthMap)
 				 GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);  
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);  
+	float borderColor[] = {1.0, 1.0, 1.0, 1.0};
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-	//glDrawBuffer(GL_NONE);
-	//glReadBuffer(GL_NONE);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
 
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
@@ -150,7 +169,7 @@ void configureShader(Shader &shader, bool shadows)
 	shader.use();
 	glm::mat4 model(1.0);
 	
-	float near_plane = 1.0f, far_plane = 30.0f;
+	float near_plane = 1.0f, far_plane = 50.0f;
 	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, 
 											far_plane); 
 	glm::mat4 lightView = glm::lookAt(glm::vec3(-10, -10, -10) * lightDirection, 
@@ -162,6 +181,8 @@ void configureShader(Shader &shader, bool shadows)
 		shader.set_mat4("model", model);
 	}
 	else {
+		//glm::vec3 color(0.5, 0.8, 0.1);
+		glm::vec3 color(1.0, 1.0, 1.0);
 		glm::mat4 view = camera.get_view();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.fov), SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
 		shader.set_mat4("lightSpaceMatrix", lightSpaceMatrix);
@@ -169,7 +190,7 @@ void configureShader(Shader &shader, bool shadows)
 		shader.set_mat4("projection", projection);
 		shader.set_mat4("view", view);
 		shader.set_vec3("viewPos", camera.position);
-		shader.set_vec3("material.diffuse", 0.5f, 0.8f, 0.1f);
+		shader.set_vec3("material.diffuse", color);
 		shader.set_vec3("material.specular", 0.2, 0.2, 0.2);
 		shader.set_float("material.shininess", 32.0f);
 		shader.set_vec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
